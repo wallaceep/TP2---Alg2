@@ -8,7 +8,7 @@ import tsp_bnb
 import christofides
 import tat
 
-timeLimit = 1
+timeLimit = 30*60
 
 #Lê os datasets
 def read_datasets(file_path):
@@ -93,7 +93,7 @@ if __name__ == "__main__":
             tsp_bab = tsp_bnb.branch_and_bound(len(graph))
 
             if (timeLimit):
-                write_file(f"{dataset_name}, NaN", "output_christofides.txt", 'a')
+                write_file(f"{dataset_name}, NaN", "output_branch_and_bound.txt", 'a')
             else:
                 tsp_bab.TSP(graph)
                 end_time = time.time()
@@ -128,11 +128,12 @@ if __name__ == "__main__":
         
         if (alg == "twice_around_the_tree"):
             graph = nx.from_pandas_adjacency(adjacency_matrix)
-
-            if (timeLimit):
-                write_file(f"{dataset_name}, NaN", "output_christofides.txt", 'a')  
+            start_time = time.time()
+        
+            if (timeLimit==0):
+                # write_file(f"{dataset_name}, NaN", "output_twice_around_tree.txt", 'a')  
+                print()
             else:
-                start_time = time.time()
                 mem_before = memory_usage()[0]
 
                 hamiltonian_cycle = tat.approx_tsp_tour(graph, 'weight')
